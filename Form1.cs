@@ -117,21 +117,30 @@ namespace laba1LIS
 
         private void ВыходToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(richTextBox1.Text)){
+            if (string.IsNullOrEmpty(richTextBox1.Text))
+            {
                 Close();
             }
             else
             {
-                DialogResult result = MessageBox.Show("Вы хотите сохранить изменения?", " Сообщение ",MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-                if (result == DialogResult.Yes)
+                if (сохранитьToolStripMenuItem.Text != richTextBox1.Text)
                 {
-                    сохранитьToolStripMenuItem_Click(sender, e);
+                    DialogResult result = MessageBox.Show("Вы хотите сохранить изменения?", " Сообщение ", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    if (result == DialogResult.Yes)
+                    {
+                        сохранитьToolStripMenuItem_Click(sender, e);
+                        Close();
+                    }
+                    else if (result == DialogResult.No)
+                    {
+                        Close();
+                    }
                 }
-                else if (result == DialogResult.No)
-                {
-                    Close();
-                }
+                else Close();
+
+               
             }
+
             
         }
 
@@ -161,25 +170,58 @@ namespace laba1LIS
 
         private void toolStripButton8_Click(object sender, EventArgs e)
         {
-            if (richTextBox1.SelectionLength != 0)
-            {
-                richTextBox1.SelectionStart = richTextBox1.SelectionStart + richTextBox1.SelectionLength;
-                richTextBox1.Paste();
-            }
+            richTextBox1.Paste();
         }
 
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
-            if (richTextBox1.CanUndo == true)
-            {
-                richTextBox1.Undo();
-                richTextBox1.ClearUndo();
-            }
+            richTextBox1.Undo();
         }
 
         private void toolStripButton5_Click(object sender, EventArgs e)
         {
-                richTextBox1.Redo();
+            richTextBox1.Redo();
+        }
+
+        private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.SelectedText = "";
+        }
+
+        private void выделитьВсеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.SelectAll();
+        }
+
+        private void отменитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Undo();
+        }
+
+        private void повторитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Redo();
+        }
+
+        private void вырезатьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (richTextBox1.SelectionLength != 0)
+            {
+                richTextBox1.Cut();
+            }
+        }
+
+        private void копироватьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (richTextBox1.SelectionLength > 0)
+            {
+                richTextBox1.Copy();
+            }
+        }
+
+        private void вставитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Paste();
         }
     }
 }

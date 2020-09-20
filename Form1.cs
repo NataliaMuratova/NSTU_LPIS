@@ -14,6 +14,7 @@ namespace laba1LIS
     public partial class Form1 : Form
     {
         String fileName;
+        Boolean flagTextChanged = false;
         public Form1()
         {
             InitializeComponent();
@@ -92,7 +93,7 @@ namespace laba1LIS
 
         private void RichTextBox1_TextChanged(object sender, EventArgs e)
         {
-
+            flagTextChanged = true;
         }
 
         private void СохранитьКакToolStripMenuItem_Click(object sender, EventArgs e)
@@ -103,6 +104,7 @@ namespace laba1LIS
             {
                 richTextBox1.SaveFile(saveFileDialog1.FileName);
                 fileName = saveFileDialog1.FileName;
+                flagTextChanged = false;
             }
         }
 
@@ -123,7 +125,7 @@ namespace laba1LIS
             }
             else
             {
-                if (сохранитьToolStripMenuItem.Text != richTextBox1.Text)
+                if (flagTextChanged == true)
                 {
                     DialogResult result = MessageBox.Show("Вы хотите сохранить изменения?", " Сообщение ", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                     if (result == DialogResult.Yes)
@@ -150,7 +152,12 @@ namespace laba1LIS
             {
                 СохранитьКакToolStripMenuItem_Click(sender, e);
             }
-            else richTextBox1.SaveFile(fileName);
+            else
+            {
+                richTextBox1.SaveFile(fileName);
+                flagTextChanged = false;
+            }
+
         }
 
         private void toolStripButton6_Click(object sender, EventArgs e)

@@ -20,14 +20,14 @@ namespace laba1LIS
             InitializeComponent();
             fileName = Properties.Resources.defaultFileName;
 
+            //richTextBox1.ForeColor = Color.Red;
+            //richTextBox1.Font = new Font("Arial", 10);
+            //richTextBox1.AppendText(string.Format(" Искать Слово \r\n"));
+
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Button1_Click(object sender, EventArgs e)
         {
 
         }
@@ -42,11 +42,6 @@ namespace laba1LIS
 
         }
 
-        private void ToolStripSeparator1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void ToolStripSeparator1_Click_1(object sender, EventArgs e)
         {
 
@@ -55,6 +50,8 @@ namespace laba1LIS
         private void ToolStripButton1_Click(object sender, EventArgs e)
         {
             richTextBox1.Clear();
+            fileName = Properties.Resources.defaultFileName;
+            flagTextChanged = false;
         }
 
         private void ToolStripButton2_Click(object sender, EventArgs e)
@@ -93,6 +90,7 @@ namespace laba1LIS
 
         private void RichTextBox1_TextChanged(object sender, EventArgs e)
         {
+            keyWords();
             flagTextChanged = true;
         }
 
@@ -119,15 +117,10 @@ namespace laba1LIS
 
         private void ВыходToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(richTextBox1.Text))
-            {
-                Close();
-            }
-            else
-            {
+
                 if (flagTextChanged == true)
                 {
-                    DialogResult result = MessageBox.Show("Вы хотите сохранить изменения?", " Сообщение ", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    DialogResult result = MessageBox.Show("Вы хотите сохранить изменения?", " Сообщение ", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                     if (result == DialogResult.Yes)
                     {
                         сохранитьToolStripMenuItem_Click(sender, e);
@@ -137,13 +130,11 @@ namespace laba1LIS
                     {
                         Close();
                     }
+                    else if (result == DialogResult.Cancel) { }
                 }
                 else Close();
 
-               
-            }
-
-            
+ 
         }
 
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -230,5 +221,44 @@ namespace laba1LIS
         {
             richTextBox1.Paste();
         }
+
+        private void вызовСправкиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void оПрограммеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutBox1 aboutBox = new AboutBox1();
+            aboutBox.ShowDialog();
+        }
+
+        private void справкаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void keyWords()
+        {
+            int position_save = richTextBox1.SelectionStart; // сохраняем позицию курсора из начально
+
+
+            string str = "Console";
+            int i = 0;
+            while (i <= richTextBox1.Text.Length - str.Length)
+            {
+                //выделение цветом
+                i = richTextBox1.Text.IndexOf(str, i);
+                if (i < 0) break;
+                richTextBox1.SelectionStart = i;
+                richTextBox1.SelectionLength = str.Length;
+                richTextBox1.SelectionColor = Color.Blue;
+                i += str.Length;
+                richTextBox1.SelectionStart = position_save; // ставим как было
+                richTextBox1.SelectionColor = Color.Black; // чужое красим в черное
+            }
+        }
+    
+
     }
 }
